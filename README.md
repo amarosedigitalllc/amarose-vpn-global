@@ -1,0 +1,1 @@
+# amarose-vpn-global
