@@ -1,5 +1,25 @@
 import 'package:flutter/material.dart';
 
+void main() {
+  runApp(const GlobalVpnApp());
+}
+
+class GlobalVpnApp extends StatelessWidget {
+  const GlobalVpnApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Global VPN',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: const Color(0xFF0B101D),
+      ),
+      home: const HomeScreen(),
+    );
+  }
+}
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -19,25 +39,18 @@ class _HomeScreenState extends State<HomeScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF0B101D), // Тёмно-синий верх
-              Color(0xFF05070C), // Почти чёрный низ
+              Color(0xFF0B101D),
+              Color(0xFF05070C),
             ],
           ),
         ),
         child: SafeArea(
           child: Column(
             children: [
-              // 1. Наша шапка с логотипом AV
               _buildHeader(),
-
               const Spacer(),
-
-              // 2. Центральная неоновая кнопка
               _buildConnectButton(),
-
               const SizedBox(height: 20),
-
-              // Текст статуса
               Text(
                 isConnected ? "ПОДКЛЮЧЕНО" : "ЗАЩИТА ВЫКЛЮЧЕНА",
                 style: TextStyle(
@@ -47,12 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   letterSpacing: 1.5,
                 ),
               ),
-
               const Spacer(),
-
-              // 3. Блок показателей (IP, Скорость)
               _buildStatsCards(),
-
               const SizedBox(height: 20),
             ],
           ),
@@ -61,7 +70,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Шапка с логотипом AV
   Widget _buildHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -74,6 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 'assets/images/logo_av.png',
                 height: 36,
                 fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.shield,
+                  color: Color(0xFF00E5FF),
+                  size: 32,
+                ),
               ),
               const SizedBox(width: 12),
               const Text(
@@ -96,7 +109,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Неоновая кнопка подключения
   Widget _buildConnectButton() {
     return GestureDetector(
       onTap: () {
@@ -134,7 +146,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Информационные карточки
   Widget _buildStatsCards() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -148,9 +159,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _buildStatItem(Icons.arrow_downward, "Загрузка", isConnected ? "45.2 Мб/с" : "0 Мб/с"),
+            _buildStatItem(
+                Icons.arrow_downward, "Загрузка", isConnected ? "45.2 Мб/с" : "0 Мб/с"),
             Container(width: 1, height: 30, color: Colors.white10),
-            _buildStatItem(Icons.arrow_upward, "Отдача", isConnected ? "12.8 Мб/с" : "0 Мб/с"),
+            _buildStatItem(
+                Icons.arrow_upward, "Отдача", isConnected ? "12.8 Мб/с" : "0 Мб/с"),
           ],
         ),
       ),
@@ -165,8 +178,13 @@ class _HomeScreenState extends State<HomeScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(label, style: const TextStyle(color: Colors.white38, fontSize: 11)),
-            Text(value, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+            Text(label,
+                style: const TextStyle(color: Colors.white38, fontSize: 11)),
+            Text(value,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold)),
           ],
         ),
       ],
